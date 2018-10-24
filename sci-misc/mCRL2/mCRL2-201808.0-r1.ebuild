@@ -25,6 +25,9 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}"
+PATCHES=(
+	"${FILESDIR}/201808.0-ide-property-sort.patch"
+)
 
 src_configure() {
 	cmake-utils_src_configure

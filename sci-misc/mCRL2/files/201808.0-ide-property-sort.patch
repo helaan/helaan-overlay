@@ -1,0 +1,26 @@
+From a4a8c12d2f3dfef069b4cca5efd0561c1c8dd1c7 Mon Sep 17 00:00:00 2001
+From: Henk van der Laan <opensource@henkvdlaan.com>
+Date: Wed, 24 Oct 2018 16:30:35 +0200
+Subject: [PATCH] Sort property names in mcrl2-ide lexicographically
+
+Currently this is done by the OS, some of which default to sorting the
+filenames (Windows) while others do not (Linux), which results in an
+unsorted property list on some systems, which is annoying.
+
+diff --git a/tools/release/mcrl2ide/filesystem.cpp b/tools/release/mcrl2ide/filesystem.cpp
+index cc0aeb54c..539359374 100644
+--- a/tools/release/mcrl2ide/filesystem.cpp
++++ b/tools/release/mcrl2ide/filesystem.cpp
+@@ -543,6 +543,9 @@ void FileSystem::openProjectFromFolder(const QString& newProjectFolderPath,
+               propertyFile.close();
+             }
+           }
++          properties.sort([] (const Property& lhs, const Property& rhs) {
++            return QString::compare(lhs.name, rhs.name) < 0;
++          });
+           delete dirIterator;
+         }
+       }
+-- 
+2.18.1
+
